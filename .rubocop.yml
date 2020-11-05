@@ -1,0 +1,21 @@
+require: rubocop-rails
+
+AllCops:
+  TargetRubyVersion: 2.7.1
+  Exclude:
+    - 'app/channels/**/*'
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'config/**/*'
+  NewCops: enable
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always_true
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: true
+  Exclude:
+    - spec/**/*
