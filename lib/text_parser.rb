@@ -21,16 +21,14 @@ class TextParser
     player_array = []
 
     parsed_txt.each_with_index do |item, index|
-      player_array << item.split(' ') if index.zero? || index == 1
+      player_array << split(item) if index.zero? || index == 1
 
-      if player_array[0][0] == split(item).first
-        player_array[0] << split(item).last unless index.zero?
+      if same_player_name?(player_array.first, item) && !index.zero?
+        player_array[0] << split(item).last
       end
 
-      if index > 0
-        if player_array[1][0] == split(item).first
-          player_array[1] << split(item).last unless index == 1
-        end
+      if same_player_name?(player_array.last, item) && index > 1
+        player_array[1] << split(item).last
       end
     end
 
@@ -39,6 +37,10 @@ class TextParser
 
   def split(item)
     item.split(' ')
+  end
+
+  def same_player_name?(array, item)
+    array.first == split(item).first
   end
 end
 
