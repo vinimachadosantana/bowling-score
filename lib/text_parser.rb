@@ -14,10 +14,10 @@ class TextParser
   private
 
   def parser
-    unite_similars(JSON.parse(@txt.to_json).split("\n"))
+    append_player_scores(JSON.parse(@txt.to_json).split("\n"))
   end
 
-  def unite_similars(parsed_txt)
+  def append_player_scores(parsed_txt)
     player_array = []
 
     parsed_txt.each_with_index do |item, index|
