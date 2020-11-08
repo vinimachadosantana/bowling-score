@@ -21,14 +21,16 @@ class TextParser
     player_array = []
 
     parsed_txt.each_with_index do |item, index|
-      player_array << split(item) if index.zero? || index == 1
+      unless player_array.flatten.include? split(item).first
+        player_array << split(item)
+      end
 
       if same_player_name?(player_array.first, item) && !index.zero?
-        player_array[0] << split(item).last
+        player_array.first << split(item).last
       end
 
       if same_player_name?(player_array.last, item) && index > 1
-        player_array[1] << split(item).last
+        player_array.last << split(item).last
       end
     end
 
