@@ -62,6 +62,9 @@ class Pinfall
 
             if previous_shot.nil?
               array << score.split(//)
+            elsif previous_shot&.first.to_i + score.to_i == 10
+              previous_shot << '/'
+              frame += 1
             else
               previous_shot << score
               frame += 1
