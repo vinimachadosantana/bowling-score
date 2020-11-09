@@ -1,4 +1,3 @@
-Jeff 0
 Jeff 10
 John 3
 John 7
@@ -33,4 +32,4 @@ Jeff 8
 Jeff 1
 John 10
 John 9
-John 0
+John 1
