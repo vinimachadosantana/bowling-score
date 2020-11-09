@@ -3,7 +3,7 @@ require 'json'
 class TextParser
   attr_accessor :txt
 
-  def initialize(txt)
+  def initialize(txt: $stdin.read)
     @txt = txt
   end
 
@@ -45,6 +45,3 @@ class TextParser
     array.first == split(item).first
   end
 end
-
-input = $stdin.read
-p TextParser.new(input).call
