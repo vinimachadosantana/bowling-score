@@ -27,25 +27,41 @@ class Bowling
 
   def frame_printer
     str = 'Frame  '
-    range = (1..10).map { |frame| "#{frame}         " }.join
+    range = (1..10).map { |frame| "#{frame}         " }.join.rstrip
 
-    p "#{str}     #{range}".rstrip
+    p "#{str}     #{range}"
   end
 
-  def results_printer(pinfall, scoring)
-    pinfall.each do |pinfalls|
-      player_printer(pinfalls.shift) && pinfall_printer(pinfalls)
-    end
+  def pinfall_printer(pinfalls)
+    str = 'Pinfalls'
+    pinfall = pinfalls.flatten.map { |frame| "#{frame}    " }.join.rstrip
+
+    p "#{str}    #{pinfall}"
   end
 
   def player_printer(player)
     p player
   end
 
-  def pinfall_printer(pinfalls)
-    str = 'Pinfalls'
-    pinfall = pinfalls.flatten.map { |frame| "#{frame}    " }.join
+  def results_printer(pinfall, scoring)
+    pinfall.each do |pinfalls|
+      player = pinfalls.shift
 
-    p "#{str}    #{pinfall}".rstrip
+      player_printer(player) && pinfall_printer(pinfalls)
+      score_printer(scoring, player)
+    end
+  end
+
+  def score_printer(scoring, player)
+    str = 'Score'
+
+    scoring.each do |scores|
+      if scores.include? player
+        scores.shift
+        score = scores.map { |frame| "#{frame}        " }.join.rstrip
+
+        p "#{str}      #{score}"
+      end
+    end
   end
 end
