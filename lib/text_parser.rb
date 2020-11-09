@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'json'
 
 class TextParser
@@ -20,17 +22,14 @@ class TextParser
   def append_player_scores(parsed_txt)
     player_array = []
 
-    parsed_txt.each_with_index do |item, index|
-      unless player_array.flatten.include? split(item).first
-        player_array << split(item)
-      end
+    parsed_txt.each do |item|
+      player_name = split(item).first
+      player_score = split(item).last
 
-      if same_player_name?(player_array.first, item) && !index.zero?
-        player_array.first << split(item).last
-      end
+      player_array << player_name.split unless player_array.flatten.include? player_name
 
-      if same_player_name?(player_array.last, item) && index > 1
-        player_array.last << split(item).last
+      player_array.each do |array|
+        array << player_score if array.include? player_name
       end
     end
 
