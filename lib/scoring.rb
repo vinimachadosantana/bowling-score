@@ -24,8 +24,13 @@ class Scoring
         elsif strike?(pinfall)
           if strike?(pinfalls[frame + 1])
             if frame == 9
-              sum1 = pinfalls[frame + 1].map { |str| normalize_value(str) }.sum
-              sum1 -= pinfalls[frame + 1].last.to_i
+              if strike?(pinfall) && all_strikes?(pinfalls[frame + 1])
+                sum1 = pinfalls[frame + 1].map { |str| normalize_value(str) }.sum
+                sum1 -= strike_value(pinfalls[frame + 1])
+              else
+                sum1 = pinfalls[frame + 1].map { |str| normalize_value(str) }.sum
+                sum1 -= pinfalls[frame + 1].last.to_i
+              end
             else
               sum1 = strike_value(pinfalls[frame + 1])
               sum2 = strike_value(pinfalls[frame + 2])
@@ -60,19 +65,23 @@ class Scoring
     score
   end
 
-  def strike_value(array)
-    array&.include?('X') ? 10 : array.map(&:to_i).sum
+  def all_strikes?(array)
+    array.all? { |x| x == 'X' }
   end
 
-  def strike?(value)
-    value&.include? 'X'
+  def normalize_value(str)
+    strike?(str) ? 10 : str.to_i
   end
 
   def spare?(value)
     value&.include? '/'
   end
 
-  def normalize_value(str)
-    strike?(str) ? 10 : str.to_i
+  def strike_value(array)
+    array&.include?('X') ? 10 : array.map(&:to_i).sum
+  end
+
+  def strike?(value)
+    value&.include? 'X'
   end
 end
