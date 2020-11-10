@@ -27,11 +27,11 @@ class Scoring
             if frame == 9
               sum1 = next_shot.map { |str| normalize_value(str) }.sum
 
-              if strike?(pinfall) && all_strikes?(next_shot)
-                sum1 -= strike_value(next_shot)
-              else
-                sum1 -= next_shot.last.to_i
-              end
+              sum1 -= if strike?(pinfall) && all_strikes?(next_shot)
+                        strike_value(next_shot)
+                      else
+                        next_shot.last.to_i
+                      end
             else
               sum1 = strike_value(next_shot)
               sum2 = strike_value(pinfalls[frame + 2])

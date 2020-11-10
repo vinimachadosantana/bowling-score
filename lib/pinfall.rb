@@ -38,8 +38,6 @@ class Pinfall
 
             frame += 1
           when 'F'
-            current_shot = 0
-
             previous_shot = if array.last.count == 2
                               nil
                             else
@@ -53,8 +51,6 @@ class Pinfall
               frame += 1
             end
           else
-            current_shot = score&.to_i
-
             previous_shot = if array.last.count == 2
                               nil
                             else
