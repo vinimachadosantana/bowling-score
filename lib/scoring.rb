@@ -11,42 +11,43 @@ class Scoring
     score = []
 
     pinfall_array.each do |pinfalls|
-      player_score = []
-      score_sum = 0
       frame = 1
+      score_sum = 0
+      player_score = []
 
       pinfalls.each_with_index do |pinfall, index|
         player_score << pinfall if index.zero?
+        next_shot = pinfalls[frame + 1]
         frame_score = 0
 
         if frame == 10
           frame_score = pinfall.map { |str| normalize_value(str) }.sum
         elsif strike?(pinfall)
-          if strike?(pinfalls[frame + 1])
+          if strike?(next_shot)
             if frame == 9
-              if strike?(pinfall) && all_strikes?(pinfalls[frame + 1])
-                sum1 = pinfalls[frame + 1].map { |str| normalize_value(str) }.sum
-                sum1 -= strike_value(pinfalls[frame + 1])
+              sum1 = next_shot.map { |str| normalize_value(str) }.sum
+
+              if strike?(pinfall) && all_strikes?(next_shot)
+                sum1 -= strike_value(next_shot)
               else
-                sum1 = pinfalls[frame + 1].map { |str| normalize_value(str) }.sum
-                sum1 -= pinfalls[frame + 1].last.to_i
+                sum1 -= next_shot.last.to_i
               end
             else
-              sum1 = strike_value(pinfalls[frame + 1])
+              sum1 = strike_value(next_shot)
               sum2 = strike_value(pinfalls[frame + 2])
             end
 
             sum1 = 0 if sum1.nil?
             sum2 = 0 if sum2.nil?
           else
-            sum1 = spare?(pinfalls[frame + 1]) ? 10 : pinfalls[frame + 1][0].to_i
-            sum2 = sum1 == 10 ? 0 : pinfalls[frame + 1][1].to_i
+            sum1 = spare?(next_shot) ? 10 : next_shot[0].to_i
+            sum2 = sum1 == 10 ? 0 : next_shot[1].to_i
           end
 
           frame_score = 10 + sum1 + sum2
           frame += 1
         elsif spare?(pinfall)
-          frame_score = 10 + pinfalls[frame + 1].first.to_i
+          frame_score = 10 + next_shot.first.to_i
           frame += 1
         else
           unless index.zero?
