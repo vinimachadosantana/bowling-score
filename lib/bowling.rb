@@ -56,12 +56,12 @@ class Bowling
     str = 'Score'
 
     scoring.each do |scores|
-      if scores.include? player
-        scores.shift
-        score = scores.map { |frame| "#{frame}        " }.join.rstrip
+      next unless scores.include? player
 
-        p "#{str}      #{score}"
-      end
+      scores.shift
+      score = scores.map { |frame| "#{frame}        " }.join.rstrip
+
+      p "#{str}      #{score}"
     end
   end
 end

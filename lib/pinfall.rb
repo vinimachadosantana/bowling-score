@@ -13,22 +13,23 @@ class Pinfall
           array << score
         elsif frame == 10
           if array.count == 10
-            score == '10' ? array << 'X'.split(//) : array << score.split(//)
+            array << (score == '10' ? 'X'.split(//) : score.split(//))
           elsif array.last[1] == '/'
-            if score == "10"
-              array.last << 'X'
-            else
-              array.last << score
-            end
+            array.last << if score == '10'
+                            'X'
+                          else
+                            score
+                          end
           else
-            if array.last.last.to_i + score.to_i == 10
-              score == '10' ? array.last << 'X' : array.last << '/'
-            else
-              score == '10' ? array.last << 'X' : array.last << score
-            end
+            array.last << if array.last.last.to_i + score.to_i == 10
+                            (score == '10' ? 'X' : '/')
+                          else
+                            (score == '10' ? 'X' : score)
+                          end
           end
         elsif array.last.is_a?(Array)
-          if score == '10'
+          case score
+          when '10'
             if array.last.count == 2
               array << ' '.split(//).append('X')
             else
@@ -36,14 +37,14 @@ class Pinfall
             end
 
             frame += 1
-          elsif score == 'F'
+          when 'F'
             current_shot = 0
 
-            if array.last.count == 2
-              previous_shot = nil
-            else
-              previous_shot = array.last
-            end
+            previous_shot = if array.last.count == 2
+                              nil
+                            else
+                              array.last
+                            end
 
             if previous_shot.nil?
               array << score.split(//)
@@ -54,11 +55,11 @@ class Pinfall
           else
             current_shot = score&.to_i
 
-            if array.last.count == 2
-              previous_shot = nil
-            else
-              previous_shot = array.last
-            end
+            previous_shot = if array.last.count == 2
+                              nil
+                            else
+                              array.last
+                            end
 
             if previous_shot.nil?
               array << score.split(//)
