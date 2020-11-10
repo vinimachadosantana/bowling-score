@@ -25,7 +25,7 @@ docker-compose build
 # start the server
 docker-compose up
 
-# to access the container run
+# to access the container run in another terminal
 docker-compose exec web bash
 ```
 
